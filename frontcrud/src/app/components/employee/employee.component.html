@@ -1,0 +1,55 @@
+<mat-toolbar>Employee</mat-toolbar>
+
+<router-outlet></router-outlet>
+
+
+<div [hidden]="route.children.length !== 0">
+    <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="names">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>NAMES</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.names}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="ti">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>TI</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.ti}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="workArea">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>WorkArea</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.workArea}}</mat-cell>
+            </ng-container>
+
+            <div>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <button mat-button *ngIf="validationAdmin" color="primary">
+                            <mat-icon [routerLink]="['edition', row.id]">ballot</mat-icon>
+                        </button>
+                        <button mat-button *ngIf="validationAdmin">
+                            <mat-icon color="accent" (click)="delete(row.id)">delete</mat-icon>
+                        </button>
+
+                    </mat-cell>
+                </ng-container>
+            </div>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+
+
+</div>
+
+<button mat-fab color="accent" style="float: right; margin-right: 20px" *ngIf="validationAdmin" routerLink='/employee/new'>
+    <mat-icon>create</mat-icon>
+</button>

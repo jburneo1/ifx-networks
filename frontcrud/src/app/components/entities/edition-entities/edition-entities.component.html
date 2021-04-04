@@ -1,0 +1,19 @@
+<form class="example-container" [formGroup]="form" (ngSubmit)="updateOrCreate()" #espForm="ngForm">
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="ID" required formControlName="id">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Employee Name" required formControlName="name">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+        <mat-icon>done</mat-icon><span>Aceptar</span>
+    </button>
+    <button mat-raised-button color="accent" routerLink='/entities' type="button">
+        <mat-icon>close</mat-icon><span>Cancelar</span>
+    </button>
+
+
+</form>
