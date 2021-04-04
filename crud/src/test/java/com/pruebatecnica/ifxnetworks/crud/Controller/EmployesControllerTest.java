@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,10 +35,6 @@ class EmployesControllerTest {
 
     @Test
     void save() {
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
         Employee employes = new Employee();
 
@@ -79,9 +76,9 @@ class EmployesControllerTest {
 
         when(service.listById("1234")).thenReturn(employeeToAdd);
 
-        ResponseEntity<Employee> responseEntity = employesController.listEmployesById("1");
+        ResponseEntity<Employee> responseEntity = employesController.listEmployesById("1234");
 
-//        assertThat(responseEntity.getBody().getId()).isEqualTo(1);
+        assertThat(responseEntity.getBody().getId()).isEqualTo("1234");
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     }
@@ -89,25 +86,34 @@ class EmployesControllerTest {
     @Test
     void update() {
 
-//        MockHttpServletRequest request = new MockHttpServletRequest();
-//
-//        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-//
-//        Employee employes = new Employee();
-//
-//        employes.setId("1");
-//
-//        when(service.save(any(Employee.class))).thenReturn(employes);
-//
-//        Employee employeeToAdd = new Employee("1234", "Jesus", "cc", "sistemas", "developer");
-//
-//        ResponseEntity<Employee> responseEntity = employesController.update(employeeToAdd);
-//
-//        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+        Employee employeeToQuery = new Employee("1234", "Jesus", "cc", "sistemas", "developer");
+
+        Employee employeeToUpdate = new Employee("1234", "Jesussss", "cc", "sistemas", "developer");
+
+        when(service.listById("1234")).thenReturn(employeeToQuery);
+
+        when(service.update(employeeToQuery)).thenReturn(employeeToUpdate);
+
+
+        ResponseEntity<Employee> responseEntity = employesController.update(employeeToQuery);
+
+        assertThat(responseEntity.getBody().getId()).isEqualTo("1234");
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
     }
-//
+
     @Test
-    void delete() throws Exception {
+    void delete() {
+
+        Employee employeeToDelete = new Employee("1234", "Jesus", "cc", "sistemas", "developer");
+
+        when(service.listById("1234")).thenReturn(employeeToDelete);
+
+        when(service.deleteById("1234")).thenReturn(true);
+
+        ResponseEntity<Employee> responseEntity = employesController.delete("1234");
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(204);
+
 
     }
 }

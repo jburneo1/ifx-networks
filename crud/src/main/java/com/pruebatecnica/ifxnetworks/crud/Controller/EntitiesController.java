@@ -55,7 +55,7 @@ public class EntitiesController {
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") String id){
+    public ResponseEntity<Entities> delete(@PathVariable("id") String id){
         Entities obj = service.listById(id) ;
         if(obj.getId() == null) {
             throw new ModelNotFoundException("ID NO ENCONTRADO " + id);

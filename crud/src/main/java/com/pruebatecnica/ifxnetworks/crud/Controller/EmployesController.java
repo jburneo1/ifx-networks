@@ -44,8 +44,8 @@ public class EmployesController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @PutMapping()
     public ResponseEntity<Employee> update(@RequestBody Employee query) {
-        Employee obj = service.listById(query.getId()) ;
-        if(obj.getId() == null) {
+        Employee obj = service.listById(query.getId());
+        if (obj.getId() == null) {
             throw new ModelNotFoundException("ID NO ENCONTRADO " + query.getId());
         }
         Employee objUpdate = service.update(query);
@@ -54,12 +54,13 @@ public class EmployesController {
 
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") String id){
-        Employee obj = service.listById(id) ;
-        if(obj.getId() == null) {
+    public ResponseEntity<Employee> delete(@PathVariable("id") String id) {
+        Employee obj = service.listById(id);
+        if (obj.getId() == null) {
             throw new ModelNotFoundException("ID NO ENCONTRADO " + id);
         }
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

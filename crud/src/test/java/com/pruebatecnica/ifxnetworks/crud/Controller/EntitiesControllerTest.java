@@ -50,11 +50,22 @@ class EntitiesControllerTest {
     }
 
     @Test
+    void listEmployesById() {
+
+        Entities entities = new Entities("1234", "Jesus");
+
+
+        when(service.listById("1234")).thenReturn(entities);
+
+        ResponseEntity<Entities> responseEntity = controller.listEmployesById("1234");
+
+        assertThat(responseEntity.getBody().getId()).isEqualTo("1234");
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    }
+
+    @Test
     void save() {
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
         Entities entities1 = new Entities();
 
@@ -70,11 +81,34 @@ class EntitiesControllerTest {
 
     }
 
-//    @Test
-//    void update() {
-//    }
-//
-//    @Test
-//    void delete() {
-//    }
+    @Test
+    void update() {
+        Entities entities = new Entities("1234", "Jesus");
+
+        Entities entitiesToUpdate = new Entities("1234", "Jesussss");
+
+        when(service.listById("1234")).thenReturn(entities);
+
+        when(service.update(entities)).thenReturn(entitiesToUpdate);
+
+
+        ResponseEntity<Entities> responseEntity = controller.update(entities);
+
+        assertThat(responseEntity.getBody().getId()).isEqualTo("1234");
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+    }
+
+    @Test
+    void delete() {
+
+        Entities entities = new Entities("1234", "Jesus");
+
+        when(service.listById("1234")).thenReturn(entities);
+
+        when(service.deleteById("1234")).thenReturn(true);
+
+        ResponseEntity<Entities> responseEntity = controller.delete("1234");
+
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(204);
+    }
 }
